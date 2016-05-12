@@ -9,24 +9,24 @@
 
 using namespace memDB;
 
-typedef struct {  // ¼ÇÂ¼5·ÖÖÓÄÚµÄËùÓĞ¼ÇÂ¼
+typedef struct {  // è®°å½•5åˆ†é’Ÿå†…çš„æ‰€æœ‰è®°å½•
 	Record rd[MAX * 10]; // record
 }Record_Of_Five;
 
-int idx = 0; // Îå·ÖÖÓÄÚµÄ¼ÇÂ¼Ë÷Òı
+int idx = 0; // äº”åˆ†é’Ÿå†…çš„è®°å½•ç´¢å¼•
 Record_Of_Five *rdf; // record_of_five
-Record_Of_Five *rdfbk; //ÁíÍâ±¸·İµÄ5·ÖÖÓÖ¸Õë
-map<int, string> mapstr; // ½«³µÅÆºÅ Ó³ÉäÎªÕûĞÎ
-vector<Index> vec[MAX]; //¸ù¾İ³µÅÆºÅË÷Òı¿¨¿Ú¼ÇÂ¼
+Record_Of_Five *rdfbk; //å¦å¤–å¤‡ä»½çš„5åˆ†é’ŸæŒ‡é’ˆ
+map<int, string> mapstr; // å°†è½¦ç‰Œå· æ˜ å°„ä¸ºæ•´å½¢
+vector<Index> vec[MAX]; //æ ¹æ®è½¦ç‰Œå·ç´¢å¼•å¡å£è®°å½•
 map<string, vector<Index> > mapvec;
-int term_five; // ¼ÇÂ¼ÊÇµÚ¼¸¸öÎå·ÖÖÓ
+int term_five; // è®°å½•æ˜¯ç¬¬å‡ ä¸ªäº”åˆ†é’Ÿ
 
 
 void init() {
 	rdf = new Record_Of_Five();
 	rdfbk = new Record_Of_Five();
 
-	// ³õÊ¼»¯ map<int ,string> ½« ³µÅÆºÅºÍ ÕûĞÍÓ³Éä
+	// åˆå§‹åŒ– map<int ,string> å°† è½¦ç‰Œå·å’Œ æ•´å‹æ˜ å°„
 	char buf[10];
 	for (int i = 0; i < MAX; i++)
 	{
@@ -38,7 +38,7 @@ void init() {
 		mapstr[i] = str;
 	}
 
-	// ³õÊ¼»¯ map<string, vector>
+	// åˆå§‹åŒ– map<string, vector>
 	for (int i = 0; i < MAX; i++) {
 		mapvec[mapstr[i]] = vec[i];
 	}
@@ -48,7 +48,7 @@ void init() {
 bool insert(string str, int x, int y, int time)
 {
 	int term_five_tmp = time / 300;
-	if (term_five_tmp != term_five) { // ÅĞ¶Ïµ±Ç°µÄ5·ÖÖÓÊÇ·ñÂúÁË
+	if (term_five_tmp != term_five) { // åˆ¤æ–­å½“å‰çš„5åˆ†é’Ÿæ˜¯å¦æ»¡äº†
 		term_five = term_five_tmp;
 		Record_Of_Five *tmp = rdf;
 		rdf = rdfbk;
