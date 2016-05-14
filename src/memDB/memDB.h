@@ -51,9 +51,9 @@ namespace memDB {
 	
 
 
-	void init();
-	bool insert(string str, int x, int y, int time);
-	vector<Index> select(string car);
+	void init(Global &global);
+	bool insert(Global &global, string str, int x, int y, int time);
+	vector<Index> select(Global &global, string car);
 
 }
 
