@@ -5,55 +5,124 @@
 
 #include <iostream>
 
+#define MAX_RECORDS 2000000 /*区间内最大的记录条数*/
+#define TIME_INTERVAL 300  /*时间判断区间*/
 
 
-using namespace memDB;
 
-void memDB::init(Global &global) {
-	global.rdf = new Record_Of_Five();
-	global.rdfbk = new Record_Of_Five();
+namespace memDB {
 
-	// 初始化 map<int ,string> 将 车牌号和 整型映射
-	char buf[10];
-	for (int i = 0; i < MAX; i++)
+	class RecordPool {  // 记录5分钟内的所有记录
+	public:
+		vector<Record> records;
+		
+		RecordPool() {
+			records.reserve(MAX_RECORDS);
+		}
+	};
+
+	class Index {
+	public:
+		int time;
+		int index;
+
+		Index(int time, int index) :time(time), index(index) {}
+	};
+
+	bool inited = false;
+
+	int maxTime = 0;
+
+	map<string, vector<Index>> * carMapPtr = nullptr;
+	map<string, vector<Index>> * carMapBkPtr = nullptr;
+
+	RecordPool * recordPoolPtr = nullptr;
+	RecordPool * recordPoolBkPtr = nullptr;
+
+
+	void init() {
+		if (inited)
+		{
+			cout << "memDB inited twice!" << endl;
+			return;
+		}
+		else
+		{
+			inited = true;
+		}
+
+		// These codes are not safe
+		carMapPtr = new map<string, vector<Index>>;
+		carMapBkPtr = new map<string, vector<Index>>;
+
+		recordPoolPtr = new RecordPool;
+		recordPoolBkPtr = new RecordPool;
+	}
+
+	bool insert(string str, int x, int y, int time)
 	{
-		int j = 1000000 + i + 1;
-		sprintf(buf, "%d", j);
-		string str = "A";
-		for (int ii = 1; ii < 7; ii++)
-			str += buf[ii];
-		global.mapstr[i] = str;
-	}
+		auto & carMap = *carMapPtr;
+		auto & carMapBk = *carMapBkPtr;
+		auto & recordPool = *recordPoolPtr;
+		auto & recordPoolBk = *recordPoolBkPtr;
 
-	// 初始化 map<string, vector>
-	for (int i = 0; i < MAX; i++) {
-		global.mapvec[(global.mapstr)[i]] = (global.vec)[i];
-	}
+		if (time/TIME_INTERVAL - maxTime > 0) //本条记录时间更靠前
+		{
+			maxTime = time / TIME_INTERVAL;
 
+			//These codes are not safe
+			delete carMapBkPtr;
+			delete recordPoolBkPtr;
+			carMapBkPtr = carMapPtr;
+			recordPoolBkPtr = recordPoolPtr;
+			carMapPtr = new map<string, vector<Index>>;
+			recordPoolPtr = new RecordPool;
+
+			insert(str, x, y, time);
+		}
+		else if(time/TIME_INTERVAL - maxTime == 0) // 在当前池
+		{
+			auto & car = carMap[str];
+			
+			recordPool.records.push_back(Record(x, y, time));
+			car.push_back(Index(time, recordPool.records.size() - 1));
+		}
+		else if (time / TIME_INTERVAL - maxTime == -1) // 在备份池
+		{
+			auto & car = carMapBk[str];
+
+			recordPoolBk.records.push_back(Record(x, y, time));
+			car.push_back(Index(time, recordPoolBk.records.size() - 1));
+		}
+		else //记录过早，丢弃
+		{
+			return false;
+		}
+		return true;
+	}
+	vector<Record> select(string str)
+	{
+		auto & carMap = *carMapPtr;
+		auto & carMapBk = *carMapBkPtr;
+		auto & recordPool = *recordPoolPtr;
+		auto & recordPoolBk = *recordPoolBkPtr;
+
+		auto car = carMap[str];
+		auto carBk = carMapBk[str];
+
+		auto res = vector<Record>();
+
+		for (auto & rec : carBk)
+		{
+			res.push_back(Record(recordPoolBk.records[rec.index]));
+		}
+
+		for (auto & rec : car)
+		{
+			res.push_back(Record(recordPool.records[rec.index]));
+		}
+
+		return res;
+	}
 }
 
-bool memDB::insert(Global &global, string str, int x, int y, int time)
-{
-	int term_five_tmp = time / 300;
-	if (term_five_tmp != global.term_five) { // 判断当前的5分钟是否满了
-		global.term_five = term_five_tmp;
-		Record_Of_Five *tmp = global.rdf;
-		global.rdf = global.rdfbk;
-		global.rdfbk = tmp;
-		global.idx = 0;
-	}
-
-	global.rdf->rd[(global.idx)++].addrd(str, x, y, time);
-	Index index(time, global.idx - 1);
-	global.mapvec[str].push_back(index);
-	return true;
-}
-vector<Index> memDB::select(Global &global, string car)
-{
-	vector<Index> tmp = global.mapvec[car];
-	int len = tmp.size();
-	for (int i = 0; i < len; i++) {
-		cout << tmp[i].index;
-	}
-	return global.mapvec[car];
-}
