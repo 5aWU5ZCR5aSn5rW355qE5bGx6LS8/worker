@@ -7,3 +7,6 @@ build: ../test/memDBTest.o ../build/memDB.o
 	g++ --std=c++11 -O2 -c -o ../test/memDBTest.o ../src/memDBTest/memDBTest.cpp
 ../build/memDB.o:
 	g++ --std=c++11 -O2 -c -o ../build/memDB.o ../src/memDB/memDB.cpp
+
+clean:
+	rm ../test/memDBTest.o ../test/memDBTest ../build/memDB.o

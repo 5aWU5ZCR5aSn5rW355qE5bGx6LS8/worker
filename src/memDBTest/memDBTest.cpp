@@ -5,23 +5,24 @@ using namespace std;
 
 int main();
 
-Global global;
+//Global global;
 
 int main()
 {
 
+    	Global *global = new Global();
 	init(global);
 
 	clock_t start_time = clock();
 
 	for (int i = 0; i < 200000; i++) {
-		string car = global.mapstr[i];
+		string car = global -> mapstr[i];
 		//        cout << car << endl;
 		for (int j = 0; j < 5; j++) { // 共测试 i.max * j.max 次数据
 			insert(global, car, j, 1, 1);
 		}
 	}
-	cout << "the number of total insert： " << global.idx << endl;
+	cout << "the number of total insert： " << global -> idx << endl;
 
 	//    insert("A000001", 1, 1, 1);
 	//    insert("A000002", 1, 1, 1);
