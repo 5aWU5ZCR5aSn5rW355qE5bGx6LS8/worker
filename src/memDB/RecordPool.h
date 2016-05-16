@@ -19,13 +19,7 @@ namespace memDB
 			mRecords.reserve(MAX_RECORDS);
 		}
 
-		~RecordPool()
-		{
-			for (auto iter : mRecords)
-			{
-				mStorage->erase(iter);
-			}
-		}
+		~RecordPool() = default;
 
 		void add(RecordIterator iter)
 		{
@@ -40,9 +34,11 @@ namespace memDB
 
 		void reset()
 		{
-			auto temp = mStorage;
-			this->~RecordPool();
-			new (this) RecordPool(*temp);
+			for (auto iter : mRecords)
+			{
+				mStorage->erase(iter);
+			}
+			mRecords.clear();
 		}
 	};
 

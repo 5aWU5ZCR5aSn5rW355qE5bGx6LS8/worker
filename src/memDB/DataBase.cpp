@@ -7,9 +7,9 @@ memDB::DataBase::DataBase()
 
 }
 
-bool memDB::DataBase::insert(std::string str, int x, int y, int time)
+bool memDB::DataBase::insert(std::string str, int x, int y, memDB::Record::TimePoint time)
 {
-	if (time / TIME_INTERVAL - mMaxTime < -1) {
+	if (time - mCheckPoint > 3*TIME_INTERVAL) {
 		return false;
 	}
 
@@ -18,12 +18,12 @@ bool memDB::DataBase::insert(std::string str, int x, int y, int time)
 		std::forward_as_tuple(str),
 		std::forward_as_tuple(x, y, time));
 
-	if (time / TIME_INTERVAL - mMaxTime > 0){
+	if (time - mCheckPoint > 2*TIME_INTERVAL){
 		mMaxTime = time / TIME_INTERVAL;
 		mSwapChain.swap();
 	}
 
-	if (time / TIME_INTERVAL - mMaxTime == 0){
+	if (time  - mCheckPoint > TIME_INTERVAL){
 		mSwapChain.front().add(pos);
 	}
 	else {
