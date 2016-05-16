@@ -10,7 +10,7 @@ namespace memDB
 	class DataBase
 	{
 		static constexpr const size_t MAX_RECORDS = 2000000;
-		static constexpr const size_t TIME_INTERVAL = 300;
+		static constexpr const int TIME_INTERVAL = 300;
 		using Storage = std::unordered_multimap<std::string/*car name*/, Record>;
 		Storage mStorage;
 		SwapChain<RecordPool<Storage, MAX_RECORDS>> mSwapChain;
