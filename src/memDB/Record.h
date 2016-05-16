@@ -4,13 +4,13 @@
 
 namespace memDB
 {
-	struct Record
+	struct RecordW
 	{
 		using TimePoint = int;
 		int posX;
 		int posY;
 		TimePoint time;
-		Record(int x, int y, TimePoint t)
+		RecordW(int x, int y, TimePoint t)
 			:posX(x), posY(y), time(t)
 		{
 

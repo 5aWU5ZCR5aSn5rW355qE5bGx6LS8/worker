@@ -154,6 +154,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\src\common\csvReader.h" />
     <ClInclude Include="..\..\src\memDBTest\memDBTest.h" />
   </ItemGroup>
   <ItemGroup>
