@@ -1,10 +1,9 @@
 #include "DataBase.h"
 #include <algorithm>
 
-memDB::DataBase::DataBase()
-	:mSwapChain(mStorage), mMaxTime(0)
+memDB::DataBase::DataBase(const Record::TimePoint& initTime)
+	:mSwapChain(mStorage), mCheckPoint(initTime)
 {
-
 }
 
 bool memDB::DataBase::insert(std::string str, int x, int y, memDB::Record::TimePoint time)
@@ -19,7 +18,7 @@ bool memDB::DataBase::insert(std::string str, int x, int y, memDB::Record::TimeP
 		std::forward_as_tuple(x, y, time));
 
 	if (time - mCheckPoint > 2*TIME_INTERVAL){
-		mMaxTime = time / TIME_INTERVAL;
+		mCheckPoint = time;
 		mSwapChain.swap();
 	}
 
