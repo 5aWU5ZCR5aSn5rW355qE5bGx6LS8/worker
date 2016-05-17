@@ -18,7 +18,7 @@
     <ClCompile Include="../../src/memDB/memDB.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\src\memDB\DataBase.cpp">
+    <ClCompile Include="..\..\src\memDB\RecordPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -30,12 +30,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\memDB\RecordPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\memDB\SwapChain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\memDB\DataBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
