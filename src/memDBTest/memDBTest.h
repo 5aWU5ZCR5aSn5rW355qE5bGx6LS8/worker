@@ -2,7 +2,7 @@
 
 
 #include "../memDB/memDB.h"
-#include "../memDB/DataBase.h"
+#include "../memDB/RecordPool.h"
 
 #include <cstdio>
 #include <iostream>

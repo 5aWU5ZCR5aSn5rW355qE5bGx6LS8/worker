@@ -29,12 +29,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140_clang_3_7</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140_clang_3_7</PlatformToolset>
+    <PlatformToolset>v140</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -67,14 +67,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="../../src/memDB/memDB.cpp" />
-    <ClCompile Include="..\..\src\memDB\DataBase.cpp" />
+    <ClCompile Include="..\..\src\memDB\RecordPool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="../../src/memDB/memDB.h" />
-    <ClInclude Include="..\..\src\memDB\DataBase.h" />
     <ClInclude Include="..\..\src\memDB\Record.h" />
     <ClInclude Include="..\..\src\memDB\RecordPool.h" />
-    <ClInclude Include="..\..\src\memDB\SwapChain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets" />

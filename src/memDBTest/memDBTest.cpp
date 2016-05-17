@@ -14,8 +14,11 @@ public:
 vector<row> raw;
 vector<row> sorted;
 
-
-
+using Clock = std::chrono::high_resolution_clock;
+using Ms = std::chrono::milliseconds;
+using Sec = std::chrono::seconds;
+template<class Duration>
+using TimePoint = std::chrono::time_point<Clock, Duration>;
 
 void loadTestData()
 {
@@ -123,17 +126,17 @@ void testWeier()
 	std::chrono::duration<double> elapsed_seconds;
 
 	start = std::chrono::system_clock::now();
-	DataBase db;
+	memDB::detail::RecordPool db;
 	end = std::chrono::system_clock::now();
 	elapsed_seconds = end - start;
 	cout << "init elapsed:" << elapsed_seconds.count() << "s " << endl;
 
 	{
 		start = std::chrono::system_clock::now();
-		db.insert("A000001", 1, 1, 1);
-		db.insert("A000002", 1, 1, 1);
-		db.insert("A000001", 1, 1, 1);
-		db.insert("A000001", 1, 1, 1);
+		db.insert("A000001", 1, 1, TimePoint<Sec>(1s) );
+		db.insert("A000002", 1, 1, TimePoint<Sec>(1s) );
+		db.insert("A000001", 1, 1, TimePoint<Sec>(1s) );
+		db.insert("A000001", 1, 1, TimePoint<Sec>(1s) );
 		end = std::chrono::system_clock::now();
 		elapsed_seconds = end - start;
 		cout << "insert small data elapsed:" << elapsed_seconds.count() << "s " << endl;
@@ -149,7 +152,7 @@ void testWeier()
 		cout << endl << "query result:" << endl;
 		for (auto & car : tmp)
 		{
-			cout << "A000001" << " , " << car.posX << " , " << car.posY << " , " << car.time << endl;
+			cout << "A000001" << " , " << car.posX << " , " << car.posY << " , " << endl;
 		}
 	}
 
@@ -157,7 +160,7 @@ void testWeier()
 		start = std::chrono::system_clock::now();
 		for (auto & r : raw)
 		{
-			db.insert(r.car, r.x, r.y, r.t);
+			db.insert(r.car, r.x, r.y, TimePoint<Sec>(Sec(r.t)) );
 		}
 		end = std::chrono::system_clock::now();
 		elapsed_seconds = end - start;
@@ -174,7 +177,7 @@ void testWeier()
 		cout << endl << "query result:" << endl;
 		for (auto & car : tmp)
 		{
-			cout << "A000099" << " , " << car.posX << " , " << car.posY << " , " << car.time << endl;
+			cout << "A000099" << " , " << car.posX << " , " << car.posY << " , " << endl;
 		}
 	}
 }
