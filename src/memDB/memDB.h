@@ -56,6 +56,3 @@ namespace memDB {
 	vector<Index> select(Global *global, string car);
 
 }
-
-
-
