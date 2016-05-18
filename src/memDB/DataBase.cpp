@@ -32,10 +32,10 @@ bool memDB::DataBase::insert(std::string str, int x, int y, int time)
 	return true;
 }
 
-std::vector<memDB::RecordW> memDB::DataBase::selet(std::string str)
+std::vector<memDB::Record> memDB::DataBase::selet(std::string str)
 {
-	std::vector<RecordW> result;
-	std::vector<RecordW*> temp;
+	std::vector<Record> result;
+	std::vector<Record*> temp;
 	Storage::iterator begin, end;
 	std::tie(begin, end) = mStorage.equal_range(str);
 	std::for_each(begin, end, [&](Storage::value_type& pair)

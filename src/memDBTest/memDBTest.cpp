@@ -55,17 +55,17 @@ void testOri()
 	std::chrono::duration<double> elapsed_seconds;
 
 	start = std::chrono::system_clock::now();
-	init();
+	ori::init();
 	end = std::chrono::system_clock::now();
 	elapsed_seconds = end - start;
 	cout << "init elapsed:" << elapsed_seconds.count() << "s " << endl;
 
 	{
 		start = std::chrono::system_clock::now();
-		insert("A000001", 1, 1, 1);
-		insert("A000002", 1, 1, 1);
-		insert("A000001", 1, 1, 1);
-		insert("A000001", 1, 1, 1);
+		ori::insert("A000001", 1, 1, 1);
+		ori::insert("A000002", 1, 1, 1);
+		ori::insert("A000001", 1, 1, 1);
+		ori::insert("A000001", 1, 1, 1);
 		end = std::chrono::system_clock::now();
 		elapsed_seconds = end - start;
 		cout << "insert small data elapsed:" << elapsed_seconds.count() << "s " << endl;
@@ -73,7 +73,7 @@ void testOri()
 
 	{
 		start = std::chrono::system_clock::now();
-		auto tmp = select("A000001");
+		auto tmp = ori::select("A000001");
 		end = std::chrono::system_clock::now();
 		elapsed_seconds = end - start;
 		cout << "query elapsed:" << elapsed_seconds.count() << "s " << endl;
@@ -89,7 +89,7 @@ void testOri()
 		start = std::chrono::system_clock::now();
 		for (auto & r : raw)
 		{
-			insert(r.car, r.x, r.y, r.t);
+			ori::insert(r.car, r.x, r.y, r.t);
 		}
 		end = std::chrono::system_clock::now();
 		elapsed_seconds = end - start;
@@ -99,7 +99,7 @@ void testOri()
 
 	{
 		start = std::chrono::system_clock::now();
-		auto tmp = select("A000099");
+		auto tmp = ori::select("A000099");
 		end = std::chrono::system_clock::now();
 		elapsed_seconds = end - start;
 		cout << "query elapsed:" << elapsed_seconds.count() << "s " << endl;
