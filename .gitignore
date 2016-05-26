@@ -248,5 +248,11 @@ test/*est*.exe
 !/build/.gitkeep
 *.amplxeproj
 *.o
+*.a
 test/*
 !/test/*.csv
+makefile/makefile
+makefile/sub*
+/makefile/CMakeFiles/*
+*.cmake
+
