@@ -146,12 +146,14 @@ void testWeier()
 		elapsed_seconds = end - start;
 		cout << "query elapsed:" << elapsed_seconds.count() << "s " << endl;
 
+
 		cout << endl << "query result:" << endl;
 		for (auto & car : tmp)
 		{
 			cout << "A000001" << " , " << car.posX << " , " << car.posY << " , " << car.time << endl;
 		}
 	}
+
 
 	{
 		start = std::chrono::system_clock::now();
@@ -178,6 +180,7 @@ void testWeier()
 		}
 	}
 }
+
 
 
 int main()
