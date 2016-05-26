@@ -252,7 +252,9 @@ test/*est*.exe
 test/*
 !/test/*.csv
 makefile/makefile
+makefile/Makefile
 makefile/sub*
-/makefile/CMakeFiles/*
+makefile/CMakeFiles/*
+makefile/CMakeCache.txt
 *.cmake
 
