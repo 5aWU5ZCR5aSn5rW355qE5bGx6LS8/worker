@@ -257,4 +257,4 @@ makefile/sub*
 makefile/CMakeFiles/*
 makefile/CMakeCache.txt
 *.cmake
-
+!libs/**
