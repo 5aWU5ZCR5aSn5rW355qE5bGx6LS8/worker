@@ -364,3 +364,4 @@ Windows 平台下面build的依赖项除了boost全部都已经包含了。安�
 Linux平台的依赖项需要自行安装以及配置。下面是Ubuntu的依赖项配置实例（其他deb系统类似）
 
 * apt-get install mysql-connector
+* apt-get install libboost-all-dev
