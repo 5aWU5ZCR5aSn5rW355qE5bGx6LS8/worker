@@ -353,7 +353,13 @@ f*ck off GPLv2 , GPL is poison!
 
 ## 依赖项 ##
 
-Windows 平台下面build的依赖项除了boost全部都已经包含了。安装Boost之后请添加环境变量boost_home到你的安装目录
+Windows 平台下面build的依赖项除了boost全部都已经包含了。安装Boost之后请添加环境变量boost_home到你的安装目录。
+
+	b2 -j8 toolset=msvc-14.0 address-model=64 architecture=x86 link=static threading=multi runtime-link=shared --build-type=minimal stage --stagedir=stage/x64
+	b2 -j8 toolset=msvc-14.0 address-model=32 architecture=x86 link=static threading=multi runtime-link=shared --build-type=minimal stage --stagedir=stage/x86
+
+在windows下buildboost请使用以上的指令
+
 
 Linux平台的依赖项需要自行安装以及配置。下面是Ubuntu的依赖项配置实例（其他deb系统类似）
 
