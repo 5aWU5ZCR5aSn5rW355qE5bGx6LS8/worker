@@ -5,18 +5,28 @@
 #include <boost/bind.hpp>
 #include <boost/smart_ptr.hpp>
 
+#include <boost/log/trivial.hpp>
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+
+#include <boost\exception_ptr.hpp>
+
+#include "../common/base64.h"
+#include "../common/global.h"
 
 namespace serverAddCar {
-	
 	using boost::asio::ip::tcp;
 	using boost::asio::ip::address;
 
 	class session : public boost::enable_shared_from_this<session> {
 	public:
 		session(boost::asio::io_service &io_service);
+		~session();
 		void start();
 		tcp::socket &socket();
 	private:
+		int session_id;
 		tcp::socket socket_;
 		boost::asio::streambuf sbuf_;
 		void handle_write(const boost::system::error_code& error, size_t bytes_transferred);

@@ -71,24 +71,34 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
     <LibraryPath>$(boost_home)\stage\x86\lib;$(LibraryPath);../../build</LibraryPath>
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <OutDir>..\..\test\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
     <LibraryPath>$(boost_home)\stage\x86\lib;$(LibraryPath);../../build</LibraryPath>
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <OutDir>..\..\test\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
     <LibraryPath>$(boost_home)\stage\x64\lib;$(LibraryPath);../../build</LibraryPath>
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <OutDir>..\..\test\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
     <LibraryPath>$(boost_home)\stage\x64\lib;$(LibraryPath);../../build</LibraryPath>
+    <TargetName>$(ProjectName)_$(Configuration)</TargetName>
+    <OutDir>..\..\test\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessToFile>
+      </PreprocessToFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>serverAddCar.lib;memDB.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -99,6 +109,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessToFile>
+      </PreprocessToFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>serverAddCar.lib;memDB.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -111,6 +123,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessToFile>
+      </PreprocessToFile>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -125,6 +139,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <PreprocessToFile>
+      </PreprocessToFile>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
