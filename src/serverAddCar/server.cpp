@@ -41,59 +41,84 @@ void serverAddCar::session::handle_write(const boost::system::error_code& error,
 }
 
 void serverAddCar::session::handle_read(const boost::system::error_code& error, size_t bytes_transferred) {
-	/*boost::asio::async_write(socket_,
-		sbuf_,
-		boost::bind(&session::handle_write,
-			shared_from_this(),
-			boost::asio::placeholders::error,
-			boost::asio::placeholders::bytes_transferred));*/
 
-	// get string from buffer
-	std::istream is(&sbuf_);
-	std::string line;
-	std::getline(is, line);
-
-	std::string jsonStr;
-
-	try
+	if ((boost::asio::error::eof == error) ||
+		(boost::asio::error::connection_reset == error))
 	{
-		base64::base64 b;
-		jsonStr = b.base64_decode(line);
-	}
-	catch (boost::exception & e)
-	{
-		BOOST_LOG_TRIVIAL(error) << "unable to decode base64 : " << line;
 		this->socket_.close();
 		return;
 	}
-
 
 	try 
 	{
+		/*boost::asio::async_write(socket_,
+		sbuf_,
+		boost::bind(&session::handle_write,
+		shared_from_this(),
+		boost::asio::placeholders::error,
+		boost::asio::placeholders::bytes_transferred));*/
 
-		boost::property_tree::ptree json;
-		boost::property_tree::read_json(std::istringstream(jsonStr), json);
-		for (auto it : json)
+		// get string from buffer
+		std::istream is(&sbuf_);
+		std::string line;
+		std::getline(is, line);
+
+		std::string jsonStr;
+
+		// decode base64
+		try
 		{
-			auto time = it.second.get<int>("t");
-			auto car = it.second.get<std::string>("c");
-			auto x = it.second.get<int>("x");
-			auto y = it.second.get<int>("y");
-
-			// TODO:  add data to mysql
-			m_memDB->insert(car, x, y, time);
+			base64::base64 b;
+			jsonStr = b.base64_decode(line);
 		}
+		catch (boost::exception & e)
+		{
+			BOOST_LOG_TRIVIAL(error) << "unable to decode base64 : " << line;
+			this->socket_.close();
+			return;
+		}
+
+
+		// decode json
+		try
+		{
+
+			boost::property_tree::ptree json;
+			boost::property_tree::read_json(std::istringstream(jsonStr), json);
+			for (auto it : json)
+			{
+				auto time = it.second.get<int>("t");
+				auto car = it.second.get<std::string>("c");
+				auto x = it.second.get<int>("x");
+				auto y = it.second.get<int>("y");
+
+				// TODO:  add data to mysql
+				m_memDB->insert(car, x, y, time);
+			}
+		}
+		catch (boost::exception & e)
+		{
+			BOOST_LOG_TRIVIAL(error) << "unable to decode json : " << jsonStr;
+			BOOST_LOG_TRIVIAL(error) << boost::diagnostic_information(e);
+			this->socket_.close();
+			return;
+		}
+
+		// continue listening
+		boost::asio::async_read_until(socket_,
+			sbuf_,
+			"\n",
+			boost::bind(&session::handle_read,
+				shared_from_this(),
+				boost::asio::placeholders::error,
+				boost::asio::placeholders::bytes_transferred));
+
 	}
-	catch (boost::exception & e)
+	catch (...)
 	{
-		BOOST_LOG_TRIVIAL(error) << "unable to decode json : " << jsonStr;
-		BOOST_LOG_TRIVIAL(error) << boost::diagnostic_information(e);
+		BOOST_LOG_TRIVIAL(error) << "unknow exception in session::handle_read";
 		this->socket_.close();
-		return;
 	}
-
-	
-
 
 }
 

@@ -13,3 +13,7 @@
 int main();
 void server();
 void client();
+void loadTestData();
+void testOne();
+void testGroup(int groupSize);
+void testEntire();
