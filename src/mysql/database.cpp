@@ -14,12 +14,18 @@ mysql::DataBase::DataBase(const std::string & addr, const  std::string & name, c
 	con->setSchema("car");
 	con->setAutoCommit(false);
 
-	if (maxBufferSize < 20)
+	if (maxBufferSize <= 1)
 	{
-		throw "max buffer size max lager than 20";
+		throw "max buffer size max lager than 1";
 	}
 
-	this->prep_stmt_insert = con->prepareStatement("INSERT INTO car (`carid`,`x`,`y`,`t`) VALUES (?,?,?,?) , (?,?,?,?) , (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?),(?,?,?,?) , (?,?,?,?) , (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?)");
+	
+	for (int i = 1; i < maxBufferSize; i++)
+	{
+		insert_sql += ",(?,?,?,?)";
+	}
+
+	this->prep_stmt_insert = con->prepareStatement(insert_sql);
 	this->prep_stmt_select = con->prepareStatement("SELECT x,y,t FROM car WHERE carid = ? ORDER BY t ASC");
 }
 
@@ -46,32 +52,20 @@ void mysql::DataBase::commit()
 	//lock.lock();
 
 	try {
-		while (this->recordBuffer.size()>=20)
+		auto len = recordBuffer.size();
+		for (int j = 0; j < len; j++)
 		{
-			for (int j = 0; j < 20; j++)
-			{
-				auto i = *(recordBuffer.end()-1);
+			auto i = *(recordBuffer.end()-1);
 
-				prep_stmt_insert->setString(4 * j + 1, i.car);
-				prep_stmt_insert->setInt(4 * j + 2, i.r.posX);
-				prep_stmt_insert->setInt(4 * j + 3, i.r.posY);
-				prep_stmt_insert->setInt(4 * j + 4, i.r.time);
+			prep_stmt_insert->setString(4 * j + 1, i.car);
+			prep_stmt_insert->setInt(4 * j + 2, i.r.posX);
+			prep_stmt_insert->setInt(4 * j + 3, i.r.posY);
+			prep_stmt_insert->setInt(4 * j + 4, i.r.time);
 
-				recordBuffer.pop_back();
-			}
-
-			prep_stmt_insert->execute();
-
+			recordBuffer.pop_back();
 		}
-		/*for (auto i : recordBuffer)
-		{
-			prep_stmt_insert->setString(1, i.car);
-			prep_stmt_insert->setInt(2, i.r.posX);
-			prep_stmt_insert->setInt(3, i.r.posY);
-			prep_stmt_insert->setInt(4, i.r.time);
 
-			prep_stmt_insert->execute();
-		}*/
+		prep_stmt_insert->execute();
 
 		con->commit();
 	}
@@ -83,7 +77,6 @@ void mysql::DataBase::commit()
 		std::cout << " (MySQL error code: " << e.getErrorCode();
 		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
 	}
-	recordBuffer.clear();
 
 	//lock.unlock();
 }

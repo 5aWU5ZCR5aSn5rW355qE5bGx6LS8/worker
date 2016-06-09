@@ -53,7 +53,7 @@ int main()
 	loadTestData();
 	cout << "test data loaded" << endl;
 
-	mysql::DataBase db(addr, name, pwd,40);
+	mysql::DataBase db(addr, name, pwd,32);
 	cout << "mysql connected" << endl;
 
 	std::chrono::time_point<std::chrono::system_clock> start, end;

@@ -30,6 +30,8 @@ namespace mysql
 		sql::PreparedStatement * prep_stmt_insert;
 		sql::PreparedStatement * prep_stmt_select;
 
+		std::string insert_sql = "INSERT INTO car (`carid`,`x`,`y`,`t`) VALUES (?,?,?,?) ";
+
 		int maxBufferSize;
 
 		std::vector<RecordBufferItem> recordBuffer;
