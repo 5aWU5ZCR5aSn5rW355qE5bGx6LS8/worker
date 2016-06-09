@@ -15,18 +15,25 @@ mysql::DataBase::DataBase(const std::string & addr, const  std::string & name, c
 
 void mysql::DataBase::insert(std::string car, int x, int y, int t)
 {
+	lock.lock();
+
 	RecordBufferItem rec(car,x,y,t);
 
 	this->recordBuffer.push_back(rec);
 	
 	if (this->recordBuffer.size() >= this->maxBufferSize)
 	{
-		commit();
+		std::thread t(&DataBase::commit);
+		t.detach();
 	}
+
+	lock.unlock();
 }
 
 void mysql::DataBase::commit()
 {
+	lock.lock();
+
 	try {
 		con->setAutoCommit(false);
 		auto prep_stmt = con->prepareStatement("INSERT INTO car (carid,x,y,t) VALUES ('?','?','?','?');");
@@ -54,6 +61,8 @@ void mysql::DataBase::commit()
 		std::cout << ", SQLState: " << e.getSQLState() << " )" << std::endl;
 	}
 	recordBuffer.clear();
+
+	lock.unlock();
 }
 
 std::vector<Record> mysql::DataBase::select(std::string str)

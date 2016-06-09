@@ -9,6 +9,8 @@
 
 #include "../common/Record.h"
 #include "recordBufferItem.h"
+#include <mutex>
+#include <thread>
 
 
 namespace mysql
@@ -20,6 +22,7 @@ namespace mysql
 		std::string name;
 		std::string pwd;
 
+		std::mutex lock;
 
 		sql::Driver *driver;
 		sql::Connection *con;
