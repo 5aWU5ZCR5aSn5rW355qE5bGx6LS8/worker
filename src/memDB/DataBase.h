@@ -1,5 +1,5 @@
 #pragma once
-#include "Record.h"
+#include "../common/Record.h"
 #include "RecordPool.h"
 #include "SwapChain.h"
 #include <unordered_map>
@@ -19,7 +19,7 @@ namespace memDB
 		DataBase();
 		~DataBase() = default;
 		bool insert(std::string str, int x, int y, int time);
-		std::vector<Record> selet(std::string str);
+		std::vector<Record> select(std::string str);
 	};
 
 }

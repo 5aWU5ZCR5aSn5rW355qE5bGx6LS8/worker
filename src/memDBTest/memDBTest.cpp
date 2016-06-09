@@ -141,7 +141,7 @@ void testWeier()
 
 	{
 		start = std::chrono::system_clock::now();
-		auto tmp = db.selet("A000001");
+		auto tmp = db.select("A000001");
 		end = std::chrono::system_clock::now();
 		elapsed_seconds = end - start;
 		cout << "query elapsed:" << elapsed_seconds.count() << "s " << endl;
@@ -168,7 +168,7 @@ void testWeier()
 
 	{
 		start = std::chrono::system_clock::now();
-		auto tmp = db.selet("A000099");
+		auto tmp = db.select("A000099");
 		end = std::chrono::system_clock::now();
 		elapsed_seconds = end - start;
 		cout << "query elapsed:" << elapsed_seconds.count() << "s " << endl;

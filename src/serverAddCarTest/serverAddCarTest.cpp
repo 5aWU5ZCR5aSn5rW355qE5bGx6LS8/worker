@@ -53,30 +53,27 @@ void client()
 	//elapsed_seconds = end - start;
 	//cout << "testOne elapsed:" << elapsed_seconds.count() << "s " << endl;
 
-	start = std::chrono::system_clock::now();
-	testGroup(3);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 3 elapsed:" << elapsed_seconds.count() << "s " << endl;
-
-	start = std::chrono::system_clock::now();
-	testGroup(5);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 5 elapsed:" << elapsed_seconds.count() << "s " << endl;
-
-
-	start = std::chrono::system_clock::now();
-	testGroup(7);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 7 elapsed:" << elapsed_seconds.count() << "s " << endl;
 
 	start = std::chrono::system_clock::now();
 	testGroup(9);
 	end = std::chrono::system_clock::now();
 	elapsed_seconds = end - start;
 	cout << "testGroup 9 elapsed:" << elapsed_seconds.count() << "s " << endl;
+
+
+	{
+		start = std::chrono::system_clock::now();
+		auto tmp = m_memDB->select("A000099");
+		end = std::chrono::system_clock::now();
+		elapsed_seconds = end - start;
+		cout << "query elapsed:" << elapsed_seconds.count() << "s " << endl;
+
+		cout << endl << "query result:" << endl;
+		for (auto & car : tmp)
+		{
+			cout << "A000099" << " , " << car.posX << " , " << car.posY << " , " << car.time << endl;
+		}
+	}
 
 
 	start = std::chrono::system_clock::now();
@@ -164,6 +161,7 @@ void testEntire()
 
 	base64::base64 b;
 	auto base64Str = b.base64_encode((const unsigned char *)jsonStr.str().c_str(), jsonStr.str().length());
+	base64Str += "\n";
 	socket.write_some(boost::asio::buffer(base64Str.c_str(), base64Str.size()));
 
 	socket.close();
@@ -194,6 +192,7 @@ void testOne()
 
 		base64::base64 b;
 		auto base64Str = b.base64_encode((const unsigned char *)jsonStr.str().c_str(), jsonStr.str().length());
+		base64Str += "\n";
 		socket.write_some(boost::asio::buffer(base64Str.c_str(), base64Str.size()));
 
 	}
@@ -225,13 +224,15 @@ void testGroup(int groupSize)
 		if (j > groupSize)
 		{
 			j = 0;
-			json.clear();
 			std::ostringstream jsonStr;
 			boost::property_tree::write_json(jsonStr, json, false);
 
 			base64::base64 b;
 			auto base64Str = b.base64_encode((const unsigned char *)jsonStr.str().c_str(), jsonStr.str().length());
+			base64Str += "\n";
 			socket.write_some(boost::asio::buffer(base64Str.c_str(), base64Str.size()));
+			
+			json.clear();
 		}
 	}
 	socket.close();

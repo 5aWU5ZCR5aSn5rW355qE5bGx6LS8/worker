@@ -32,7 +32,7 @@ bool memDB::DataBase::insert(std::string str, int x, int y, int time)
 	return true;
 }
 
-std::vector<memDB::Record> memDB::DataBase::selet(std::string str)
+std::vector<Record> memDB::DataBase::select(std::string str)
 {
 	std::vector<Record> result;
 	std::vector<Record*> temp;

@@ -82,7 +82,6 @@
   <ItemGroup>
     <ClInclude Include="../../src/memDB/memDB.h" />
     <ClInclude Include="..\..\src\memDB\DataBase.h" />
-    <ClInclude Include="..\..\src\memDB\Record.h" />
     <ClInclude Include="..\..\src\memDB\RecordPool.h" />
     <ClInclude Include="..\..\src\memDB\SwapChain.h" />
   </ItemGroup>
