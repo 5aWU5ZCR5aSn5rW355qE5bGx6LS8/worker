@@ -53,19 +53,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\..\build\</OutDir>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\..\build\</OutDir>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>..\..\build\</OutDir>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\..\build\</OutDir>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>

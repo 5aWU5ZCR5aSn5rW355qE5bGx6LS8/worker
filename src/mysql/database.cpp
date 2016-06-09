@@ -11,6 +11,16 @@ mysql::DataBase::DataBase(const std::string & addr, const  std::string & name, c
 {
 	driver = sql::mysql::get_driver_instance();
 	con = driver->connect(addr, name, pwd);
+	con->setSchema("car");
+	con->setAutoCommit(false);
+
+	if (maxBufferSize < 20)
+	{
+		throw "max buffer size max lager than 20";
+	}
+
+	this->prep_stmt_insert = con->prepareStatement("INSERT INTO car (`carid`,`x`,`y`,`t`) VALUES (?,?,?,?) , (?,?,?,?) , (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?),(?,?,?,?) , (?,?,?,?) , (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?), (?,?,?,?)");
+	this->prep_stmt_select = con->prepareStatement("SELECT x,y,t FROM car WHERE carid = ? ORDER BY t ASC");
 }
 
 void mysql::DataBase::insert(std::string car, int x, int y, int t)
@@ -23,8 +33,9 @@ void mysql::DataBase::insert(std::string car, int x, int y, int t)
 	
 	if (this->recordBuffer.size() >= this->maxBufferSize)
 	{
-		std::thread t(&DataBase::commit);
-		t.detach();
+		//std::thread t(&DataBase::commit,this);
+		//t.detach();
+		commit();
 	}
 
 	lock.unlock();
@@ -32,25 +43,37 @@ void mysql::DataBase::insert(std::string car, int x, int y, int t)
 
 void mysql::DataBase::commit()
 {
-	lock.lock();
+	//lock.lock();
 
 	try {
-		con->setAutoCommit(false);
-		auto prep_stmt = con->prepareStatement("INSERT INTO car (carid,x,y,t) VALUES ('?','?','?','?');");
-
-		for (auto i : recordBuffer)
+		while (this->recordBuffer.size()>=20)
 		{
-			prep_stmt->setString(1, i.car);
-			prep_stmt->setInt(2, i.r.posX);
-			prep_stmt->setInt(3, i.r.posY);
-			prep_stmt->setInt(4, i.r.time);
+			for (int j = 0; j < 20; j++)
+			{
+				auto i = *(recordBuffer.end()-1);
 
-			prep_stmt->execute();
+				prep_stmt_insert->setString(4 * j + 1, i.car);
+				prep_stmt_insert->setInt(4 * j + 2, i.r.posX);
+				prep_stmt_insert->setInt(4 * j + 3, i.r.posY);
+				prep_stmt_insert->setInt(4 * j + 4, i.r.time);
+
+				recordBuffer.pop_back();
+			}
+
+			prep_stmt_insert->execute();
+
 		}
+		/*for (auto i : recordBuffer)
+		{
+			prep_stmt_insert->setString(1, i.car);
+			prep_stmt_insert->setInt(2, i.r.posX);
+			prep_stmt_insert->setInt(3, i.r.posY);
+			prep_stmt_insert->setInt(4, i.r.time);
+
+			prep_stmt_insert->execute();
+		}*/
 
 		con->commit();
-
-		delete prep_stmt;
 	}
 	catch (sql::SQLException e)
 	{
@@ -62,7 +85,7 @@ void mysql::DataBase::commit()
 	}
 	recordBuffer.clear();
 
-	lock.unlock();
+	//lock.unlock();
 }
 
 std::vector<Record> mysql::DataBase::select(std::string str)
@@ -70,17 +93,15 @@ std::vector<Record> mysql::DataBase::select(std::string str)
 	std::vector<Record> result;
 
 	try {
-		auto prep_stmt = con->prepareStatement("SELECT * FROM car WHERE `carid` = '?' ORDER BY `carid` ASC");
-		prep_stmt->setString(1, str);
+		
+		prep_stmt_select->setString(1, str);
 
-		auto res = prep_stmt->executeQuery();
+		auto res = prep_stmt_select->executeQuery();
 		while (res->next())
 		{
 			Record r(res->getInt(1), res->getInt(2), res->getInt(3));
 			result.push_back(r);
 		}
-
-		delete prep_stmt;
 	}
 	catch (sql::SQLException e)
 	{

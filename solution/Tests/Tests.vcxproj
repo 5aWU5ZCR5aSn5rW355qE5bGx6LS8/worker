@@ -73,28 +73,28 @@
     <OutDir>..\..\test\</OutDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>../../build;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\test\</OutDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>../../build;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\..\test\</OutDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>../../build;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>..\..\test\</OutDir>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <LibraryPath>../../build;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

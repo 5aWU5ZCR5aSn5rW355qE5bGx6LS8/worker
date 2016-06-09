@@ -27,6 +27,9 @@ namespace mysql
 		sql::Driver *driver;
 		sql::Connection *con;
 
+		sql::PreparedStatement * prep_stmt_insert;
+		sql::PreparedStatement * prep_stmt_select;
+
 		int maxBufferSize;
 
 		std::vector<RecordBufferItem> recordBuffer;

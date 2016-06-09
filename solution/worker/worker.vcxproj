@@ -73,13 +73,13 @@
     <LinkIncremental>true</LinkIncremental>
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
     <LibraryPath>$(boost_home)\stage\x86\lib;$(LibraryPath)</LibraryPath>
     <OutDir>..\..\build\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
     <LibraryPath>$(boost_home)\stage\x64\lib;$(LibraryPath)</LibraryPath>
     <OutDir>..\..\build\</OutDir>
   </PropertyGroup>
@@ -87,13 +87,13 @@
     <LinkIncremental>false</LinkIncremental>
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
     <LibraryPath>$(boost_home)\stage\x86\lib;$(LibraryPath)</LibraryPath>
     <OutDir>..\..\build\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(boost_home);$(IncludePath)</IncludePath>
+    <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
     <LibraryPath>$(boost_home)\stage\x64\lib;$(LibraryPath)</LibraryPath>
     <OutDir>..\..\build\</OutDir>
   </PropertyGroup>
