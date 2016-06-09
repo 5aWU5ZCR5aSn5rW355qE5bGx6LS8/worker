@@ -23,5 +23,8 @@
     <ClInclude Include="..\..\src\mysql\database.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\mysql\recordBufferItem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
