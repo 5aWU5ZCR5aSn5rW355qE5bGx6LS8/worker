@@ -179,6 +179,17 @@ void testWeier()
 			cout << "A000099" << " , " << car.posX << " , " << car.posY << " , " << car.time << endl;
 		}
 	}
+
+
+	{
+		start = std::chrono::system_clock::now();
+		auto tmp = db.list();
+		end = std::chrono::system_clock::now();
+		elapsed_seconds = end - start;
+		cout << "query list elapsed:" << elapsed_seconds.count() << "s " << endl;
+
+		cout << endl << "list size :" << tmp.size() << endl;
+	}
 }
 
 

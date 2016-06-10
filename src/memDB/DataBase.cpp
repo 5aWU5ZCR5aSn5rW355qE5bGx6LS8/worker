@@ -49,3 +49,16 @@ std::vector<Record> memDB::DataBase::select(std::string str)
 	}
 	return result;
 }
+
+
+std::set<std::string> memDB::DataBase::list()
+{
+	std::set<std::string> result;
+
+	for (auto it = mStorage.begin(); it != mStorage.end(); it++)
+	{
+		result.insert(it->first);
+	}
+
+	return result;
+}

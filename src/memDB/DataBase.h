@@ -4,6 +4,7 @@
 #include "SwapChain.h"
 #include <unordered_map>
 #include <string>
+#include <set>
 
 namespace memDB
 {
@@ -20,6 +21,7 @@ namespace memDB
 		~DataBase() = default;
 		bool insert(std::string str, int x, int y, int time);
 		std::vector<Record> select(std::string str);
+		std::set<std::string> list();
 	};
 
 }
