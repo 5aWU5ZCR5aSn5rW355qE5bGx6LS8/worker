@@ -1,6 +1,6 @@
 #include "serverAddCarTest.h"
 
-memDB::DataBase * m_memDB;
+memDB::ori::DataBase * m_memDB;
 mysql::DataBase * m_mysqlDB;
 
 using namespace std;
@@ -20,7 +20,7 @@ vector<row> sorted;
 
 void server()
 {
-	m_memDB = new memDB::DataBase();
+	m_memDB = new memDB::ori::DataBase();
 	m_mysqlDB = new mysql::DataBase(addr, name, pwd, 32);
 
 	boost::asio::io_service m_io_service;

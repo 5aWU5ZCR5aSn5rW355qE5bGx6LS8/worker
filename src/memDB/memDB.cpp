@@ -5,61 +5,23 @@
 
 #include <iostream>
 
-#define MAX_RECORDS 2000000 /*区间内最大的记录条数*/
-#define TIME_INTERVAL 300  /*时间判断区间*/
 
 
 
 namespace memDB {
 	namespace ori {
-		class RecordPool {  // 记录5分钟内的所有记录
-		public:
-			vector<Record> records;
-
-			RecordPool() {
-				records.reserve(MAX_RECORDS);
-			}
-		};
-
-		class Index {
-		public:
-			int time;
-			int index;
-
-			Index(int time, int index) :time(time), index(index) {}
-		};
-
-		bool inited = false;
-
-		int maxTime = 0;
-
-		map<string, vector<Index>> * carMapPtr = nullptr;
-		map<string, vector<Index>> * carMapBkPtr = nullptr;
-
-		RecordPool * recordPoolPtr = nullptr;
-		RecordPool * recordPoolBkPtr = nullptr;
 
 
-		void init() {
-			if (inited)
-			{
-				cout << "memDB inited twice!" << endl;
-				return;
-			}
-			else
-			{
-				inited = true;
-			}
-
-			// These codes are not safe
-			carMapPtr = new map<string, vector<Index>>;
-			carMapBkPtr = new map<string, vector<Index>>;
+		DataBase::DataBase()
+		{
+			carMapPtr = new std::map<std::string, std::vector<Index>>;
+			carMapBkPtr = new std::map<std::string, std::vector<Index>>;
 
 			recordPoolPtr = new RecordPool;
 			recordPoolBkPtr = new RecordPool;
 		}
 
-		bool insert(string str, int x, int y, int time)
+		bool DataBase::insert(std::string str, int x, int y, int time)
 		{
 			auto & carMap = *carMapPtr;
 			auto & carMapBk = *carMapBkPtr;
@@ -75,7 +37,7 @@ namespace memDB {
 				delete recordPoolBkPtr;
 				carMapBkPtr = carMapPtr;
 				recordPoolBkPtr = recordPoolPtr;
-				carMapPtr = new map<string, vector<Index>>;
+				carMapPtr = new std::map<std::string, std::vector<Index>>;
 				recordPoolPtr = new RecordPool;
 
 				insert(str, x, y, time);
@@ -100,7 +62,7 @@ namespace memDB {
 			}
 			return true;
 		}
-		vector<Record> select(string str)
+		std::vector<Record> DataBase::select(std::string str)
 		{
 			auto & carMap = *carMapPtr;
 			auto & carMapBk = *carMapBkPtr;
@@ -110,7 +72,7 @@ namespace memDB {
 			auto car = carMap[str];
 			auto carBk = carMapBk[str];
 
-			auto res = vector<Record>();
+			auto res = std::vector<Record>();
 
 			for (auto & rec : carBk)
 			{
@@ -124,6 +86,24 @@ namespace memDB {
 
 			return res;
 		}
+
+		std::set<std::string> DataBase::list()
+		{
+			std::set<std::string> result;
+
+			for (auto i : *carMapPtr)
+			{
+				result.insert(i.first);
+			}
+
+			for (auto i : *carMapBkPtr)
+			{
+				result.insert(i.first);
+			}
+
+			return result;
+		}
 	}
+
 }
 
