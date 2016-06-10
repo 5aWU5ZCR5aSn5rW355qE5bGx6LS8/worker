@@ -87,7 +87,7 @@ void testOri()
 
 	{
 		start = std::chrono::system_clock::now();
-		for (auto & r : raw)
+		for (auto & r : sorted)
 		{
 			ori::insert(r.car, r.x, r.y, r.t);
 		}
@@ -186,7 +186,7 @@ void testWeier()
 
 	{
 		start = std::chrono::system_clock::now();
-		for (auto & r : raw)
+		for (auto & r : sorted)
 		{
 			db.insert(r.car, r.x, r.y, r.t);
 		}

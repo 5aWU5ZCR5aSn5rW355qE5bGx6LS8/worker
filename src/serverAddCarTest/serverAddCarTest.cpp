@@ -59,10 +59,10 @@ void client()
 
 
 	start = std::chrono::system_clock::now();
-	testGroup(32);
+	testGroup(64);
 	end = std::chrono::system_clock::now();
 	elapsed_seconds = end - start;
-	cout << "testGroup 32 elapsed:" << elapsed_seconds.count() << "s " << endl;
+	cout << "testGroup 64 elapsed:" << elapsed_seconds.count() << "s " << endl;
 
 
 	{
