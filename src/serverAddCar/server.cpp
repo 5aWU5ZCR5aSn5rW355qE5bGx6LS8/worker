@@ -94,6 +94,7 @@ void serverAddCar::session::handle_read(const boost::system::error_code& error, 
 
 				// TODO:  add data to mysql
 				m_memDB->insert(car, x, y, time);
+				m_mysqlDB->insert(car, x, y, time);
 			}
 		}
 		catch (boost::exception & e)

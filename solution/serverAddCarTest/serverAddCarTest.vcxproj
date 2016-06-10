@@ -70,25 +70,25 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
-    <LibraryPath>$(boost_home)\stage\x86\lib;$(LibraryPath);../../build</LibraryPath>
+    <LibraryPath>$(boost_home)\stage\x86\lib;$(LibraryPath);../../build;../../libs/x86/mysql/lib</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <OutDir>..\..\test\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
-    <LibraryPath>$(boost_home)\stage\x86\lib;$(LibraryPath);../../build</LibraryPath>
+    <LibraryPath>$(boost_home)\stage\x86\lib;$(LibraryPath);../../build;../../libs/x86/mysql/lib</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <OutDir>..\..\test\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
-    <LibraryPath>$(boost_home)\stage\x64\lib;$(LibraryPath);../../build</LibraryPath>
+    <LibraryPath>$(boost_home)\stage\x64\lib;$(LibraryPath);../../build;../../libs/x64/mysql/lib</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <OutDir>..\..\test\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(boost_home);$(MSBuildProjectDirectory)\..\..\libs\include\mysql;$(IncludePath)</IncludePath>
-    <LibraryPath>$(boost_home)\stage\x64\lib;$(LibraryPath);../../build</LibraryPath>
+    <LibraryPath>$(boost_home)\stage\x64\lib;$(LibraryPath);../../build;../../libs/x64/mysql/lib</LibraryPath>
     <TargetName>$(ProjectName)_$(Configuration)</TargetName>
     <OutDir>..\..\test\</OutDir>
   </PropertyGroup>
@@ -101,7 +101,7 @@
       </PreprocessToFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>serverAddCar.lib;memDB.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>serverAddCar.lib;memDB.lib;mysql.lib;mysqlcppconn.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -113,7 +113,7 @@
       </PreprocessToFile>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>serverAddCar.lib;memDB.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>serverAddCar.lib;memDB.lib;mysql.lib;mysqlcppconn.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -129,7 +129,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>serverAddCar.lib;memDB.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>serverAddCar.lib;memDB.lib;mysql.lib;mysqlcppconn.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -145,7 +145,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>serverAddCar.lib;memDB.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>serverAddCar.lib;memDB.lib;mysql.lib;mysqlcppconn.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

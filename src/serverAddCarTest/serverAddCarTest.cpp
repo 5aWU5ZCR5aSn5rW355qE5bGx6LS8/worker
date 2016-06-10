@@ -1,8 +1,11 @@
 #include "serverAddCarTest.h"
 
 memDB::DataBase * m_memDB;
+mysql::DataBase * m_mysqlDB;
 
 using namespace std;
+
+string addr, name, pwd;
 
 class row {
 public:
@@ -18,6 +21,7 @@ vector<row> sorted;
 void server()
 {
 	m_memDB = new memDB::DataBase();
+	m_mysqlDB = new mysql::DataBase(addr, name, pwd, 32);
 
 	boost::asio::io_service m_io_service;
 	boost::asio::ip::tcp::endpoint m_endpoint(boost::asio::ip::tcp::v4(), 8889);
@@ -55,10 +59,10 @@ void client()
 
 
 	start = std::chrono::system_clock::now();
-	testGroup(9);
+	testGroup(32);
 	end = std::chrono::system_clock::now();
 	elapsed_seconds = end - start;
-	cout << "testGroup 9 elapsed:" << elapsed_seconds.count() << "s " << endl;
+	cout << "testGroup 32 elapsed:" << elapsed_seconds.count() << "s " << endl;
 
 
 	{
@@ -75,66 +79,6 @@ void client()
 		}
 	}
 
-
-	start = std::chrono::system_clock::now();
-	testGroup(11);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 11 elapsed:" << elapsed_seconds.count() << "s " << endl;
-
-
-	start = std::chrono::system_clock::now();
-	testGroup(13);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 13 elapsed:" << elapsed_seconds.count() << "s " << endl;
-
-
-	start = std::chrono::system_clock::now();
-	testGroup(17);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 17 elapsed:" << elapsed_seconds.count() << "s " << endl;
-
-	start = std::chrono::system_clock::now();
-	testGroup(19);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 19 elapsed:" << elapsed_seconds.count() << "s " << endl;
-
-
-	start = std::chrono::system_clock::now();
-	testGroup(21);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 21 elapsed:" << elapsed_seconds.count() << "s " << endl;
-
-
-	start = std::chrono::system_clock::now();
-	testGroup(23);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 23 elapsed:" << elapsed_seconds.count() << "s " << endl;
-
-	start = std::chrono::system_clock::now();
-	testGroup(25);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 25 elapsed:" << elapsed_seconds.count() << "s " << endl;
-
-
-	start = std::chrono::system_clock::now();
-	testGroup(27);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 27 elapsed:" << elapsed_seconds.count() << "s " << endl;
-
-
-	start = std::chrono::system_clock::now();
-	testGroup(297);
-	end = std::chrono::system_clock::now();
-	elapsed_seconds = end - start;
-	cout << "testGroup 29 elapsed:" << elapsed_seconds.count() << "s " << endl;
 }
 
 // 所有的数据都放到一个巨大的json，因为太耗时，爆炸（
@@ -269,6 +213,13 @@ void loadTestData()
 
 int main()
 {
+	addr = "tcp://127.0.0.1:3306";
+	cout << "name:" << endl;
+	cin >> name;
+	cout << "password:" << endl;
+	cin >> pwd;
+
+
 	loadTestData();
 	cout << "test data load finish!" << endl;
 
