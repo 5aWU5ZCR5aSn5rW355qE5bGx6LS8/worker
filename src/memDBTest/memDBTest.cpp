@@ -110,6 +110,35 @@ void testOri()
 			cout << "A000099" << " , " << car.posx << " , " << car.posy << " , " << car.time << endl;
 		}
 	}
+
+	{
+		// find miss
+		for (auto i : raw)
+		{
+			bool miss = true;
+
+			if (i.t <= 300)
+				continue;
+
+			auto res = ori::select(i.car);
+			for (auto data : res)
+			{
+				if (data.time == i.t
+					&& data.posx == i.x
+					&& data.posy == i.y)
+				{
+					miss = false;
+				}
+
+			}
+
+			if (miss)
+			{
+				cout << "data missed:" << i.car << " " << i.x << "," << i.y << "," << i.t << endl;
+			}
+		}
+
+	}
 	
 }
 
@@ -189,6 +218,35 @@ void testWeier()
 		cout << "query list elapsed:" << elapsed_seconds.count() << "s " << endl;
 
 		cout << endl << "list size :" << tmp.size() << endl;
+	}
+
+	{
+		// find miss
+		for (auto i : raw)
+		{
+			bool miss = true;
+
+			if (i.t <= 300)
+				continue;
+			
+			auto res = db.select(i.car);
+			for (auto data : res)
+			{
+				if (data.time == i.t
+					&& data.posX == i.x
+					&& data.posY == i.y)
+				{
+					miss = false;
+				}
+
+			}
+
+			if (miss)
+			{
+				cout << "data missed:" << i.car << " " << i.x << "," << i.y << "," << i.t << endl;
+			}
+		}
+
 	}
 }
 
