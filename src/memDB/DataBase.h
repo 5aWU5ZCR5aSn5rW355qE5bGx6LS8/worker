@@ -5,6 +5,7 @@
 #include "SwapChain.h"
 #include <unordered_map>
 #include <string>
+#include <deque>
 #include <set>
 
 namespace memDB
@@ -13,15 +14,21 @@ namespace memDB
 	{
 		static constexpr const size_t MAX_RECORDS = 2000000;
 		static constexpr const int TIME_INTERVAL = 300;
-		using Storage = std::unordered_multimap<std::string/*car name*/, Record>;
-		Storage mStorage;
-		SwapChain<RecordPool<Storage, MAX_RECORDS>> mSwapChain;
+		static constexpr const size_t BUFFER_COUNT = 2;
+		using Dictionary = std::unordered_multimap<std::string/*Car ID*/, Record>;
+		using Storage = std::deque<Dictionary>;
 		Record::TimePoint mMaxTime;
+		Storage mStorage;
+
+	private:
+		void pushNewBuffer(size_t count);
+		void popTopBuffer(size_t count);
+
 	public:
 		DataBase();
 		~DataBase() = default;
-		bool insert(std::string str, int x, int y, int time);
-		std::vector<Record> select(std::string str);
+		bool insert(const std::string& str, int x, int y, int time);
+		std::vector<Record> select(const std::string& str);
 		std::set<std::string> list();
 	};
 
