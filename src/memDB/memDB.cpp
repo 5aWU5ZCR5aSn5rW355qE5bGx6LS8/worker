@@ -4,6 +4,7 @@
 #include "memDB.h"
 
 #include <iostream>
+#include <algorithm>
 
 
 
@@ -83,6 +84,8 @@ namespace memDB {
 			{
 				res.push_back(Record(recordPool.records[rec.index]));
 			}
+
+			std::sort(res.begin(), res.end(), [](auto i, auto j) {return i.time < j.time; });
 
 			return res;
 		}

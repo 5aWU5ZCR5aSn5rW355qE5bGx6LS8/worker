@@ -10,7 +10,8 @@ void checker::Checker::check()
 		auto route = m_memDB->select(c);
 		
 		auto i = route.begin();
-		auto j = i++;
+		auto j = route.begin();
+		j++;
 		auto end = route.end();
 
 		for (; j != end; i++, j++)

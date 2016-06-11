@@ -73,6 +73,9 @@ std::vector<Record> memDB::DataBase::select(const std::string& str)
 	{
 		result.emplace_back(*pRecord);
 	}
+
+	std::sort(result.begin(), result.end(), [](auto i, auto j) {return i.time < j.time; });
+
 	return result;
 }
 

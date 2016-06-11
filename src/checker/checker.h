@@ -6,7 +6,7 @@
 
 namespace checker
 {
-	constexpr float MAX_SPEED = 40/3.6;
+	constexpr float MAX_SPEED = 60/3.6;
 	constexpr float MIN_SPEED = 20/3.6;
 
 	constexpr int REASON_SPEED_LARGE = 1;
