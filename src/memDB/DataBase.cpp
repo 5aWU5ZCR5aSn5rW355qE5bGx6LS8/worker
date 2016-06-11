@@ -81,10 +81,10 @@ std::set<std::string> memDB::DataBase::list()
 {
 	std::set<std::string> result;
 
-	for (auto& dic : mStorage) {
-		for (auto i = dic.begin(); i != dic.end(); i++)
+	for (auto & dic : mStorage) {
+		for (auto & i:dic)
 		{
-			result.insert(i->first);
+			result.insert(i.first);
 		}
 	}
 
