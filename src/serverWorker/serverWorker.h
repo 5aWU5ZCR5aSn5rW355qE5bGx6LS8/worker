@@ -14,10 +14,13 @@
 
 #include "../common/base64.h"
 #include "../common/global.h"
+#include "../checker/checker.h"
 
 namespace serverWorker {
 	using boost::asio::ip::tcp;
 	using boost::asio::ip::address;
+	
+	
 
 	class session : public boost::enable_shared_from_this<session> {
 	public:
@@ -26,6 +29,7 @@ namespace serverWorker {
 		void start();
 		tcp::socket &socket();
 	private:
+		checker::Checker m_checker;
 		int session_id;
 		tcp::socket socket_;
 		boost::asio::streambuf sbuf_;

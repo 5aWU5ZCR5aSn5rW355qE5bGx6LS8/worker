@@ -52,7 +52,11 @@ void serverWorker::session::handle_read(const boost::system::error_code& error, 
 	try
 	{
 		// get string from buffer
-		std::istream is(&sbuf_);
+		std::istream is_(&sbuf_);
+		std::string line;
+
+		std::getline(is_,line);
+		std::istringstream is(line);
 		
 		std::string action;
 
@@ -93,10 +97,16 @@ void serverWorker::session::handle_read(const boost::system::error_code& error, 
 				json.push_back(std::make_pair("", node));
 			}
 		}
+		else if (action == "die")
+		{
+			this->socket_.close();
+			return;
+		}
 		else
 		{
-			BOOST_LOG_TRIVIAL(error) << "unknow task";
+			BOOST_LOG_TRIVIAL(error) << "unknow task " <<action;
 			this->socket_.close();
+			return;
 		}
 
 		std::ostringstream jsonStr;
