@@ -63,47 +63,52 @@ void serverAddCar::session::handle_read(const boost::system::error_code& error, 
 		std::string line;
 		std::getline(is, line);
 
-		std::string jsonStr;
-
-		// decode base64
-		try
+		if (line != "")
 		{
-			base64::base64 b;
-			jsonStr = b.base64_decode(line);
-		}
-		catch (boost::exception & e)
-		{
-			BOOST_LOG_TRIVIAL(error) << "unable to decode base64 : " << line;
-			this->socket_.close();
-			return;
-		}
+			std::string jsonStr;
 
-
-		// decode json
-		try
-		{
-
-			boost::property_tree::ptree json;
-			boost::property_tree::read_json(std::istringstream(jsonStr), json);
-			for (auto it : json)
+			// decode base64
+			try
 			{
-				auto time = it.second.get<int>("t");
-				auto car = it.second.get<std::string>("c");
-				auto x = it.second.get<int>("x");
-				auto y = it.second.get<int>("y");
+				base64::base64 b;
+				jsonStr = b.base64_decode(line);
+			}
+			catch (boost::exception & e)
+			{
+				BOOST_LOG_TRIVIAL(error) << "unable to decode base64 : " << line;
+				this->socket_.close();
+				return;
+			}
 
-				// TODO:  add data to mysql
-				m_memDB->insert(car, x, y, time);
-				m_mysqlDB->insert(car, x, y, time);
+
+			// decode json
+			try
+			{
+
+				boost::property_tree::ptree json;
+				boost::property_tree::read_json(std::istringstream(jsonStr), json);
+				for (auto it : json)
+				{
+					auto time = it.second.get<int>("t");
+					auto car = it.second.get<std::string>("c");
+					auto x = it.second.get<int>("x");
+					auto y = it.second.get<int>("y");
+
+					// TODO:  add data to mysql
+					m_memDB->insert(car, x, y, time);
+					m_mysqlDB->insert(car, x, y, time);
+				}
+			}
+			catch (boost::exception & e)
+			{
+				BOOST_LOG_TRIVIAL(error) << "unable to decode json : " << jsonStr;
+				BOOST_LOG_TRIVIAL(error) << boost::diagnostic_information(e);
+				this->socket_.close();
+				return;
 			}
 		}
-		catch (boost::exception & e)
-		{
-			BOOST_LOG_TRIVIAL(error) << "unable to decode json : " << jsonStr;
-			BOOST_LOG_TRIVIAL(error) << boost::diagnostic_information(e);
-			this->socket_.close();
-			return;
-		}
+
+		
 
 		// continue listening
 		boost::asio::async_read_until(socket_,
