@@ -6,7 +6,7 @@ serverAddCar::session::session(boost::asio::io_service &io_service) : socket_(io
 
 serverAddCar::session::~session()
 {
-	BOOST_LOG_TRIVIAL(info) << "session end : " << session_id;
+	BOOST_LOG_TRIVIAL(info) << "car session end : " << session_id;
 }
 
 void serverAddCar::session::start() {
@@ -14,7 +14,7 @@ void serverAddCar::session::start() {
 	socket_.set_option(option);
 
 	auto endpoint = socket_.remote_endpoint();
-	BOOST_LOG_TRIVIAL(info) << "session start,remote : " << endpoint.address() << " @ " << endpoint.port();
+	BOOST_LOG_TRIVIAL(info) << "car session start,remote : " << endpoint.address() << " @ " << endpoint.port();
 	session_id = endpoint.port();
 
 	boost::asio::async_read_until(socket_,
