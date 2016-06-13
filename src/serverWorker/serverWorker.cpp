@@ -87,7 +87,7 @@ void serverWorker::session::handle_read(const boost::system::error_code& error, 
 			std::string car;
 			is >> car;
 
-			auto res = m_memDB->select(car);
+			auto res = m_mysqlDB->select(car);
 
 			for (auto & i : res)
 			{
