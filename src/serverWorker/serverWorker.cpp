@@ -1,4 +1,7 @@
 #include "serverWorker.h"
+#include "../json.hpp"
+
+using JSON = nlohmann::json;
 
 serverWorker::session::session(boost::asio::io_service &io_service) : socket_(io_service)
 {
@@ -62,7 +65,7 @@ void serverWorker::session::handle_read(const boost::system::error_code& error, 
 
 		is >> action;
 
-		boost::property_tree::ptree json;
+		JSON json;
 
 		if (action == "check")
 		{
@@ -71,12 +74,12 @@ void serverWorker::session::handle_read(const boost::system::error_code& error, 
 			
 			for (auto & i : res)
 			{
-				boost::property_tree::ptree node;
+				JSON node;
 
-				node.put("c", i.car);
-				node.put("r", i.reason);
+				node["c"] = i.car;
+				node["r"] = i.reason;
 
-				json.push_back(std::make_pair("", node));
+				json.push_back(node);
 			}
 		}
 		else if (action == "select")
@@ -88,13 +91,13 @@ void serverWorker::session::handle_read(const boost::system::error_code& error, 
 
 			for (auto & i : res)
 			{
-				boost::property_tree::ptree node;
+				JSON node;
 
-				node.put("x", i.posX);
-				node.put("y", i.posY);
-				node.put("t", i.time);
+				node["t"] = i.time;
+				node["x"] = i.posX;
+				node["y"] = i.posY;
 
-				json.push_back(std::make_pair("", node));
+				json.push_back(node);
 			}
 		}
 		else if (action == "die")
@@ -109,12 +112,10 @@ void serverWorker::session::handle_read(const boost::system::error_code& error, 
 			return;
 		}
 
-		std::ostringstream jsonStr;
-		boost::property_tree::write_json(jsonStr, json, false);
-		jsonStr << "\n";
+		auto jsonStr = json.dump() + "\n";
 
 		boost::asio::async_write(socket_,
-			boost::asio::buffer(jsonStr.str().c_str(),jsonStr.str().length()),
+			boost::asio::buffer(jsonStr.c_str(),jsonStr.length()),
 			boost::bind(&session::handle_write,
 				shared_from_this(),
 				boost::asio::placeholders::error,

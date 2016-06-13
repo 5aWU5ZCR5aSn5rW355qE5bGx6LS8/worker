@@ -1,4 +1,7 @@
 #include "server.h"
+#include "../json.hpp"
+
+using JSON = nlohmann::json;
 
 serverAddCar::session::session(boost::asio::io_service &io_service) : socket_(io_service)
 {
@@ -85,16 +88,16 @@ void serverAddCar::session::handle_read(const boost::system::error_code& error, 
 			try
 			{
 
-				boost::property_tree::ptree json;
-				boost::property_tree::read_json(std::istringstream(jsonStr), json);
-				for (auto it : json)
-				{
-					auto time = it.second.get<int>("t");
-					auto car = it.second.get<std::string>("c");
-					auto x = it.second.get<int>("x");
-					auto y = it.second.get<int>("y");
+				JSON json = JSON::parse(jsonStr);
 
-					// TODO:  add data to mysql
+				for (JSON::iterator it = json.begin(); it != json.end(); ++it) {
+					JSON node = it.value();
+
+					int time = node["t"];
+					int x = node["x"];
+					int y = node["y"];
+					std::string car = node["c"];
+
 					m_memDB->insert(car, x, y, time);
 					m_mysqlDB->insert(car, x, y, time);
 				}

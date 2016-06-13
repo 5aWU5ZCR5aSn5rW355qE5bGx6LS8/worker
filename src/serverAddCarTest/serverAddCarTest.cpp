@@ -1,4 +1,7 @@
 #include "serverAddCarTest.h"
+#include "../json.hpp"
+
+using JSON = nlohmann::json;
 
 DataBase * m_memDB;
 mysql::DataBase * m_mysqlDB;
@@ -89,22 +92,21 @@ void testEntire()
 	boost::asio::ip::tcp::socket socket(ios);
 	socket.connect(endpoint);
 
-	boost::property_tree::ptree json;
+	JSON json;
 	for (auto i : raw)
 	{
-		boost::property_tree::ptree node;
-		node.put("c", i.car);
-		node.put("x", i.x);
-		node.put("y", i.y);
-		node.put("t", i.t);
+		JSON node;
+		node["c"] = i.car;
+		node["t"] = i.t;
+		node["x"] = i.x;
+		node["y"] = i.y;
 
-		json.push_back(std::make_pair("", node));
+		json.push_back(node);
 	}
-	std::ostringstream jsonStr;
-	boost::property_tree::write_json(jsonStr, json, false);
+	auto jsonStr = json.dump();
 
 	base64::base64 b;
-	auto base64Str = b.base64_encode((const unsigned char *)jsonStr.str().c_str(), jsonStr.str().length());
+	auto base64Str = b.base64_encode((const unsigned char *)jsonStr.c_str(), jsonStr.length());
 	base64Str += "\n";
 	socket.write_some(boost::asio::buffer(base64Str.c_str(), base64Str.size()));
 
@@ -121,21 +123,20 @@ void testOne()
 	
 	for (auto i : raw)
 	{
-		boost::property_tree::ptree json;
+		JSON json;
 
-		boost::property_tree::ptree node;
-		node.put("c", i.car);
-		node.put("x", i.x);
-		node.put("y", i.y);
-		node.put("t", i.t);
+		JSON node;
+		node["c"] = i.car;
+		node["t"] = i.t;
+		node["x"] = i.x;
+		node["y"] = i.y;
 
-		json.push_back(std::make_pair("", node));
+		json.push_back(node);
 
-		std::ostringstream jsonStr;
-		boost::property_tree::write_json(jsonStr, json, false);
+		auto jsonStr = json.dump();
 
 		base64::base64 b;
-		auto base64Str = b.base64_encode((const unsigned char *)jsonStr.str().c_str(), jsonStr.str().length());
+		auto base64Str = b.base64_encode((const unsigned char *)jsonStr.c_str(), jsonStr.length());
 		base64Str += "\n";
 		socket.write_some(boost::asio::buffer(base64Str.c_str(), base64Str.size()));
 
@@ -150,29 +151,28 @@ void testGroup(int groupSize)
 	boost::asio::ip::tcp::socket socket(ios);
 	socket.connect(endpoint);
 
-	boost::property_tree::ptree json;
+	JSON json;
 
 	int j = 0;
 	for (auto i : raw)
 	{
 		j++;
 
-		boost::property_tree::ptree node;
-		node.put("c", i.car);
-		node.put("x", i.x);
-		node.put("y", i.y);
-		node.put("t", i.t);
+		JSON node;
+		node["c"] = i.car;
+		node["t"] = i.t;
+		node["x"] = i.x;
+		node["y"] = i.y;
 
-		json.push_back(std::make_pair("", node));
+		json.push_back(node);
 
 		if (j > groupSize)
 		{
 			j = 0;
-			std::ostringstream jsonStr;
-			boost::property_tree::write_json(jsonStr, json, false);
+			auto jsonStr = json.dump();
 
 			base64::base64 b;
-			auto base64Str = b.base64_encode((const unsigned char *)jsonStr.str().c_str(), jsonStr.str().length());
+			auto base64Str = b.base64_encode((const unsigned char *)jsonStr.c_str(), jsonStr.length());
 			base64Str += "\n";
 			socket.write_some(boost::asio::buffer(base64Str.c_str(), base64Str.size()));
 			
