@@ -29,6 +29,7 @@ namespace mysql
 
 		sql::PreparedStatement * prep_stmt_insert;
 		sql::PreparedStatement * prep_stmt_select;
+		sql::PreparedStatement * prep_stmt_check;
 
 		std::string insert_sql = "INSERT INTO car (`carid`,`x`,`y`,`t`) VALUES (?,?,?,?) ";
 
@@ -37,6 +38,7 @@ namespace mysql
 		std::vector<RecordBufferItem> recordBuffer;
 
 		void commit();
+		void connect();
 	public:
 		DataBase(const std::string & addr, const  std::string & name, const std::string & pwd, int maxBufferSize = 10);
 		void insert(std::string car, int x, int y, int t);
