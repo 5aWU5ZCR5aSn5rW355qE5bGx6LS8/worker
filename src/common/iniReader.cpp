@@ -1,5 +1,5 @@
 #include "iniReader.h"
-#include <io.h>
+#include <sys/io.h>
 
 Ini::Ini(std::string ini_file) {
 	if (access(ini_file.c_str(), 0) == 0) {
@@ -17,7 +17,7 @@ short Ini::errCode() {
 
 std::string Ini::get(std::string path) {
 	if (this->err_code == 0) {
-		try 
+		try
 		{
 			return this->m_pt.get<std::string>(path);
 		}
@@ -33,7 +33,7 @@ std::string Ini::get(std::string path) {
 
 int Ini::getInt(std::string path) {
 	if (this->err_code == 0) {
-		try 
+		try
 		{
 			return this->m_pt.get<int>(path);
 		}

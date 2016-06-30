@@ -1,0 +1,3 @@
+FILE(GLOB SOURCE_1 "${PROJECT_ROOT_PATH}/src/mysql/*.cpp")
+
+ADD_LIBRARY(mysql STATIC ${SOURCE_1})  

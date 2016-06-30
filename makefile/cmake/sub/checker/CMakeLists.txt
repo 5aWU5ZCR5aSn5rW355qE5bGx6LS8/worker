@@ -1,0 +1,4 @@
+FILE(GLOB SOURCE_1 "${PROJECT_ROOT_PATH}/src/checker/*.cpp")
+
+ADD_LIBRARY(checker STATIC ${SOURCE_1})  
+ADD_DEPENDENCIES(checker memDB)
